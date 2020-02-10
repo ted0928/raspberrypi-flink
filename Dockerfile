@@ -47,8 +47,18 @@ RUN set -ex; \
   tar -xf flink.tgz --strip-components=1; \
   chown -R flink:flink .;
 
+# Replace MaxDirectMem
+RUN sed 's#8388607T#128M#g' -i  bin/taskmanager.sh
+
+# System Conf
+RUN echo "Asia/Shanghai" > /etc/timezone
+
+# Copy flink console shell
+COPY flink-console.sh bin/flink-console.sh
+RUN chown flink:flink bin/flink-console.sh
+
 # Configure container
 COPY docker-entrypoint.sh /
+RUN chown flink:flink /docker-entrypoint.sh
+EXPOSE 6123 6124 6125 8081
 ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
-EXPOSE 6123 8081
-CMD ["help"]

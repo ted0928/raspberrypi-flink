@@ -88,7 +88,7 @@ elif [ "$1" = "jobmanager" ]; then
     envsubst < "${CONF_FILE}" > "${CONF_FILE}.tmp" && mv "${CONF_FILE}.tmp" "${CONF_FILE}"
 
     echo "config file: " && grep '^[^\n#]' "${CONF_FILE}"
-    exec $FLINK_HOME/bin/jobmanager.sh start-foreground "$@"
+    exec $FLINK_HOME/bin/jobmanager.sh start "$@"
 elif [ "$1" = "taskmanager" ]; then
     shift 1
     echo "Starting Task Manager"
@@ -126,7 +126,7 @@ elif [ "$1" = "taskmanager" ]; then
     envsubst < "${CONF_FILE}" > "${CONF_FILE}.tmp" && mv "${CONF_FILE}.tmp" "${CONF_FILE}"
 
     echo "config file: " && grep '^[^\n#]' "${CONF_FILE}"
-    exec $FLINK_HOME/bin/taskmanager.sh start-foreground "$@"
+    exec $FLINK_HOME/bin/taskmanager.sh start "$@"
 fi
 
 exec "$@"
